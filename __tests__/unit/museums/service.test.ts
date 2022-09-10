@@ -8,7 +8,12 @@ import { Service as MuseumService } from "../../../src/museums/service.ts";
 
 describe("MuseumService.findAll", () => {
   it("should return a list of museums", async () => {
-    const museumService = new MuseumService();
+    const museumService = new MuseumService({
+      museumRepository: {
+        // deno-lint-ignore require-await
+        findAll: async () => [],
+      }
+    });
     const museumList = await museumService.findAll();
 
     assertInstanceOf(museumList, Array);
