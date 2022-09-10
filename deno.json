@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "ci": "deno task check && deno task format && deno task lint && deno task test",
+    "check": "deno check --remote src/main.ts",
+    "format": "deno fmt --check",
+    "lint": "deno lint",
+    "test": "deno test __tests__/ -A --cached-only",
+    "test:watch": "deno test __tests__/ --watch -A --cached-only",
+    "test:coverage": "deno test __tests__/ --coverage=cov_profile -A --cached-only",
+    "test:coverage:profile": "deno coverage cov_profile --lcov --output=cov_profile.lcov",
+    "test:coverage:report": "genhtml -o cov_report/html cov_profile.lcov"
+  }
+}

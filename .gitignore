@@ -7,6 +7,7 @@ logs/
 
 # Coverage
 cov_profile/
+cov_report/
 *.lcov
 
 # Dependency cache
