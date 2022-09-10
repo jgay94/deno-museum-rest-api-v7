@@ -1,4 +1,4 @@
-import { IMuseumRepository, Museum } from "./typings.d.ts";
+import { IMuseumRepository, Museum } from "./mod.ts";
 
 export class Repository implements IMuseumRepository {
   public async findAll(): Promise<Museum[]> {

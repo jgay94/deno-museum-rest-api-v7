@@ -5,7 +5,7 @@ import {
   describe,
   it,
 } from "../../../dev_deps.ts";
-import { Repository as MuseumRepository } from "../../../src/museums/repository.ts";
+import { Repository as MuseumRepository } from "../../../src/museums/mod.ts";
 
 describe("MuseumRepository.findAll", () => {
   it("should return a list of museums from memory", async () => {

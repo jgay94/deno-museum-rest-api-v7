@@ -1,4 +1,4 @@
-import { IMuseumRepository, IMuseumService, Museum } from "./typings.d.ts";
+import { IMuseumRepository, IMuseumService, Museum } from "./mod.ts";
 
 interface IServiceDependencies {
   museumRepository: IMuseumRepository;
