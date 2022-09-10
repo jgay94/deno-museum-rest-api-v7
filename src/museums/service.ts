@@ -1,26 +1,22 @@
 import { Museum } from "./typings.d.ts";
+import { Repository as MuseumRepository } from "./repository.ts";
 
 interface IMuseumService {
   findAll(): Promise<Museum[]>;
 }
 
-interface IMuseumRepository {
-  findAll(): Promise<Museum[]>;
-}
-
 interface IServiceDependencies {
-  museumRepository: IMuseumRepository;
+  museumRepository: MuseumRepository;
 }
 
 export class Service implements IMuseumService {
-  private museumRepository: IMuseumRepository;
+  private museumRepository: MuseumRepository;
 
   constructor({ museumRepository }: IServiceDependencies) {
     this.museumRepository = museumRepository;
   }
 
-  // deno-lint-ignore require-await
   public async findAll(): Promise<Museum[]> {
-    return this.museumRepository.findAll();
+    return await this.museumRepository.findAll();
   }
 }

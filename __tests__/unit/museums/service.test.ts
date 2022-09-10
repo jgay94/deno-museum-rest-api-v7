@@ -1,7 +1,7 @@
 import {
+  assertArrayIncludes,
   assertEquals,
   assertInstanceOf,
-  assertArrayIncludes,
   describe,
   it,
 } from "../../../dev_deps.ts";
@@ -21,20 +21,20 @@ describe("MuseumService.findAll", () => {
             lng: 1,
           },
         }],
-      }
+      },
     });
     const museumList = await museumService.findAll();
     const museum = museumList[0];
 
     assertInstanceOf(museumList, Array);
     assertEquals(museumList.length, 1);
-    assertArrayIncludes(museumList, [ museum ])
+    assertArrayIncludes(museumList, [museum]);
 
-    assertEquals(museum.id, "1")
-    assertEquals(museum.name, "Museum 1")
-    assertEquals(museum.description, "Description 1")
-    assertEquals(museum.location.lat, 1)
-    assertEquals(museum.location.lng, 1)
+    assertEquals(museum.id, "1");
+    assertEquals(museum.name, "Museum 1");
+    assertEquals(museum.description, "Description 1");
+    assertEquals(museum.location.lat, 1);
+    assertEquals(museum.location.lng, 1);
     console.log(museumList);
   });
 });
