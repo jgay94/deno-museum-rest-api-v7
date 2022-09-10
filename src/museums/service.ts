@@ -1,16 +1,11 @@
-import { Museum } from "./typings.d.ts";
-import { Repository as MuseumRepository } from "./repository.ts";
-
-interface IMuseumService {
-  findAll(): Promise<Museum[]>;
-}
+import { IMuseumRepository, IMuseumService, Museum } from "./typings.d.ts";
 
 interface IServiceDependencies {
-  museumRepository: MuseumRepository;
+  museumRepository: IMuseumRepository;
 }
 
 export class Service implements IMuseumService {
-  private museumRepository: MuseumRepository;
+  private museumRepository: IMuseumRepository;
 
   constructor({ museumRepository }: IServiceDependencies) {
     this.museumRepository = museumRepository;

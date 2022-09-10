@@ -1,12 +1,13 @@
-import { Museum } from "./typings.d.ts";
-
-interface IMuseumRepository {
-  findAll(): Promise<Museum[]>;
-}
+import { IMuseumRepository, Museum } from "./typings.d.ts";
 
 export class Repository implements IMuseumRepository {
-  // deno-lint-ignore require-await
   public async findAll(): Promise<Museum[]> {
-    return [];
+    return await JSON.parse(
+      sessionStorage.getItem("museums") || "[]",
+    ) as Museum[];
+  }
+
+  public loadFixtures(museumList: Museum[]): void {
+    sessionStorage.setItem("museums", JSON.stringify(museumList));
   }
 }

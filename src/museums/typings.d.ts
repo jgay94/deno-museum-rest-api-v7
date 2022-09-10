@@ -7,3 +7,11 @@ export type Museum = {
     lng: number;
   };
 };
+
+export interface IMuseumService {
+  findAll(): Promise<Museum[]>;
+}
+
+export interface IMuseumRepository {
+  findAll(): Promise<Museum[]>;
+}
