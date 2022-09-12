@@ -5,8 +5,9 @@ import {
   assertInstanceOf,
 } from "std/testing/asserts.ts";
 import { Repository as MuseumRepository } from "/src/museums/mod.ts";
+import { Service as MuseumService } from "/src/museums/mod.ts";
 
-describe("MuseumRepository.findAll", () => {
+describe("Find all museums", () => {
   let museumRepository: MuseumRepository;
 
   beforeEach(() => {
@@ -15,11 +16,13 @@ describe("MuseumRepository.findAll", () => {
   });
 
   it("should return an empty list upon initialization", async () => {
-    const museumList = await museumRepository.findAll();
+    const museumService = new MuseumService({ museumRepository });
+    const museumList = await museumService.findAll();
 
     assertInstanceOf(museumList, Array);
     assertEquals(museumList.length, 0);
     assertArrayIncludes(museumList, []);
+    console.log(museumList);
   });
 
   it("should return a list of museums", async () => {
@@ -34,7 +37,8 @@ describe("MuseumRepository.findAll", () => {
         },
       },
     ]);
-    const museumList = await museumRepository.findAll();
+    const museumService = new MuseumService({ museumRepository });
+    const museumList = await museumService.findAll();
     const museum = museumList[0];
 
     assertInstanceOf(museumList, Array);
@@ -46,5 +50,6 @@ describe("MuseumRepository.findAll", () => {
     assertEquals(museum.description, "Description 1");
     assertEquals(museum.location.lat, 1);
     assertEquals(museum.location.lng, 1);
+    console.log(museumList);
   });
 });
