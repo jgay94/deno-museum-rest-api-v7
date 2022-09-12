@@ -1,4 +1,5 @@
 import { Server } from "./framework/server.ts";
+import { healthcheck } from "./routes/healthcheck.ts";
 
 const server = new Server({
   configuration: {
@@ -7,6 +8,9 @@ const server = new Server({
       port: 8080,
       apiPrefix: "/api/v1",
     },
+    endpoints: [
+      healthcheck,
+    ],
   },
 });
 

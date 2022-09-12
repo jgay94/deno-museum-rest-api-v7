@@ -1,6 +1,6 @@
 import * as log from "std/log/mod.ts";
 import { Application } from "https://deno.land/x/oak/mod.ts";
-import { Router } from "./router.ts";
+import { RouteGroup, Router } from "./router.ts";
 
 interface IServer {
   run(): void;
@@ -14,6 +14,7 @@ interface IServerDependencies {
       port: number;
       apiPrefix: string;
     };
+    endpoints: RouteGroup[];
   };
 }
 
@@ -23,6 +24,7 @@ export class Server implements IServer {
   private router: Router;
   private name: string;
   private port: number;
+  private endpoints: RouteGroup[];
 
   constructor({
     configuration: {
@@ -31,6 +33,7 @@ export class Server implements IServer {
         port,
         apiPrefix,
       },
+      endpoints,
     },
   }: IServerDependencies) {
     this.app = new Application();
@@ -38,6 +41,7 @@ export class Server implements IServer {
     this.router = new Router({ apiPrefix });
     this.name = name;
     this.port = port;
+    this.endpoints = endpoints;
   }
 
   public run(): void {
@@ -53,32 +57,32 @@ export class Server implements IServer {
   }
 
   private initEndpoints(): void {
-    this.router.registerRoutes()
-    log.info("Initializing endpoints...")
+    this.router.registerRoutes(this.endpoints);
+    log.info("Initializing endpoints...");
   }
 
   private registerMiddleware(): void {
     this.registerApplicationMiddleware();
     this.registerRouterMiddleware();
-    log.info("Registering middleware...")
+    log.info("Registering middleware...");
   }
 
   private registerApplicationMiddleware(): void {
     this.app.use(async (ctx, next) => {
       await next();
-      const rt = ctx.response.headers.get("X-Response-Time")
-      log.info(`${ctx.request.method} ${ctx.request.url} +${rt}`)
-    })
+      const rt = ctx.response.headers.get("X-Response-Time");
+      log.info(`${ctx.request.method} ${ctx.request.url} +${rt}`);
+    });
     this.app.use(async (ctx, next) => {
-      const start = Date.now()
-      await next()
-      const delta = Date.now() - start
-      ctx.response.headers.set("X-Response-Time", `${delta}ms`)
-    })
+      const start = Date.now();
+      await next();
+      const delta = Date.now() - start;
+      ctx.response.headers.set("X-Response-Time", `${delta}ms`);
+    });
   }
 
   private registerRouterMiddleware(): void {
-    this.router.registerRouterMiddleware(this.app)
+    this.router.registerRouterMiddleware(this.app);
   }
 
   private addEventListeners(): void {
