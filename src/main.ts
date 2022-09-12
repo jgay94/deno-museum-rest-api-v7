@@ -5,6 +5,7 @@ const server = new Server({
     app: {
       name: "Museums App",
       port: 8080,
+      apiPrefix: "/api/v1",
     },
   },
 });
