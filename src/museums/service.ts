@@ -1,4 +1,5 @@
 import { IMuseumRepository, IMuseumService, Museum } from "./mod.ts";
+import * as log from "std/log/mod.ts";
 
 interface IServiceDependencies {
   museumRepository: IMuseumRepository;
@@ -12,6 +13,9 @@ export class Service implements IMuseumService {
   }
 
   public async findAll(): Promise<Museum[]> {
-    return await this.museumRepository.findAll();
+    const museumList = await this.museumRepository.findAll();
+    log.info(`Found ${museumList.length} museums...`);
+
+    return museumList;
   }
 }

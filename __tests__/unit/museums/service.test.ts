@@ -1,11 +1,10 @@
+import { describe, it } from "std/testing/bdd.ts";
 import {
   assertArrayIncludes,
   assertEquals,
   assertInstanceOf,
-  describe,
-  it,
-} from "../../../dev_deps.ts";
-import { Service as MuseumService } from "../../../src/museums/mod.ts";
+} from "std/testing/asserts.ts";
+import { Service as MuseumService } from "/src/museums/mod.ts";
 
 describe("MuseumService.findAll", () => {
   it("should return a list of museums", async () => {
