@@ -1,11 +1,6 @@
+import { IServer, Router, RouteGroup } from "./mod.ts";
 import * as log from "std/log/mod.ts";
-import { Application } from "https://deno.land/x/oak/mod.ts";
-import { RouteGroup, Router } from "./router.ts";
-
-interface IServer {
-  run(): void;
-  close(reason: DOMException): void;
-}
+import { Application } from "oak";
 
 interface IServerDependencies {
   configuration: {

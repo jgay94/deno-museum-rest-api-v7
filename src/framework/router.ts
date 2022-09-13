@@ -1,32 +1,5 @@
-import {
-  Application,
-  Router as OakRouter,
-  RouterContext,
-} from "https://deno.land/x/oak/mod.ts";
-
-export type RouteGroup = {
-  group: { prefix: string };
-  routes: Route[];
-};
-
-type Route = {
-  method:
-    | "all"
-    | "delete"
-    | "get"
-    | "head"
-    | "options"
-    | "patch"
-    | "post"
-    | "put";
-  path: string;
-  handler: (ctx: RouterContext) => Promise<void>;
-};
-
-interface IRouter {
-  registerRouterMiddleware(app: Application): void;
-  registerRoutes(routeGroups: RouteGroup[]): void;
-}
+import { IRouter, RouteGroup } from "./mod.ts";
+import { Application, Router as OakRouter } from "oak";
 
 interface IRouterDependencies {
   apiPrefix: string;

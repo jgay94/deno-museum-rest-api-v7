@@ -1,4 +1,4 @@
-import { RouteGroup } from "../framework/router.ts";
+import { RouteGroup } from "../framework/mod.ts";
 
 export const healthcheck: RouteGroup = {
   group: { prefix: "/healthcheck" },

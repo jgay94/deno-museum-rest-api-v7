@@ -1,7 +1,9 @@
 {
   "importMap": "import_map.json",
   "tasks": {
-    "dev": "deno run -A --cached-only --watch src/main.ts",
+    "install": "deno cache --reload --lock=lock.json src/main.ts",
+    "lock": "deno cache --lock=lock.json --lock-write src/main.ts",
+    "dev": "deno run -A --lock=lock.json --cached-only --watch src/main.ts",
     "ci": "deno task check && deno task format && deno task lint && deno task test",
     "check": "deno check --remote src/main.ts",
     "format": "deno fmt src/ && deno fmt __tests__/",
