@@ -1,5 +1,10 @@
 import { IServer, RouteGroup, Router } from "./mod.ts";
 import * as log from "std/log/mod.ts";
+import {
+  errorHandler,
+  requestLogger,
+  responseTimer,
+} from "../middleware/mod.ts";
 import { Application } from "oak";
 
 interface IServerDependencies {
@@ -63,17 +68,11 @@ export class Server implements IServer {
   }
 
   private registerApplicationMiddleware(): void {
-    this.app.use(async (ctx, next) => {
-      await next();
-      const rt = ctx.response.headers.get("X-Response-Time");
-      log.info(`${ctx.request.method} ${ctx.request.url} +${rt}`);
-    });
-    this.app.use(async (ctx, next) => {
-      const start = Date.now();
-      await next();
-      const delta = Date.now() - start;
-      ctx.response.headers.set("X-Response-Time", `${delta}ms`);
-    });
+    this.app.use(
+      errorHandler,
+      requestLogger,
+      responseTimer,
+    );
   }
 
   private registerRouterMiddleware(): void {
