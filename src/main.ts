@@ -1,5 +1,5 @@
 import { Server } from "./framework/mod.ts";
-import { healthcheck } from "./routes/mod.ts";
+import { healthcheck, museums } from "./routes/mod.ts";
 
 const server = new Server({
   configuration: {
@@ -10,6 +10,7 @@ const server = new Server({
     },
     endpoints: [
       healthcheck,
+      museums,
     ],
   },
 });

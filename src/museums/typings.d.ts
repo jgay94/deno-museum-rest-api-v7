@@ -1,3 +1,5 @@
+import { RouterContext } from "oak";
+
 export type Museum = {
   id: string;
   name: string;
@@ -7,6 +9,10 @@ export type Museum = {
     lng: number;
   };
 };
+
+export interface IMuseumController {
+  findAll(ctx: RouterContext<string>): Promise<void>;
+}
 
 export interface IMuseumService {
   findAll(): Promise<Museum[]>;

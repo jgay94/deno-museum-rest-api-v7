@@ -1,4 +1,4 @@
-import { IServer, Router, RouteGroup } from "./mod.ts";
+import { IServer, RouteGroup, Router } from "./mod.ts";
 import * as log from "std/log/mod.ts";
 import { Application } from "oak";
 
