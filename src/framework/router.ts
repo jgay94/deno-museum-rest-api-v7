@@ -25,8 +25,13 @@ export class Router implements IRouter {
 
   private generateRoutes(routeGroups: RouteGroup[]): void {
     routeGroups.forEach(({ group, routes }) => {
-      routes.forEach(({ method, path, handler }) => {
-        (this.router[method] as OakRouter["all"])(group.prefix + path, handler);
+      routes.forEach(({ method, path, middleware, handler }) => {
+        (this.router[method] as OakRouter["all"])(
+          group.prefix + path,
+          ...group.middleware as [],
+          ...middleware as [],
+          handler,
+        );
       });
     });
   }

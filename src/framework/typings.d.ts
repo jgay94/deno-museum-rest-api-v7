@@ -1,7 +1,10 @@
-import { Application, RouterContext } from "oak";
+import { Application, RouterContext, RouterMiddleware } from "oak";
 
 export type RouteGroup = {
-  group: { prefix: string };
+  group: {
+    prefix: string;
+    middleware: RouterMiddleware<string>[];
+  };
   routes: Route[];
 };
 
@@ -16,6 +19,7 @@ type Route = {
     | "post"
     | "put";
   path: string;
+  middleware: RouterMiddleware<string>[];
   handler: (ctx: RouterContext<string>) => Promise<void>;
 };
 
