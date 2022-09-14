@@ -8,6 +8,14 @@ const server = new Server({
       port: 8080,
       apiPrefix: "/api/v1",
     },
+    https: {
+      secure: true,
+      certFile: "./certificate.pem",
+      keyFile: "./private.pem",
+    },
+    allowedOrigins: [
+      "http://localhost:8080",
+    ],
     endpoints: [
       healthcheck,
       museums,

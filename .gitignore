@@ -10,12 +10,15 @@ cov_profile/
 cov_report/
 *.lcov
 
-# Dependency cache
-vendor/
+# Certificates & keys
+*.pem
 
-# dotenv environment variable files
+# Environment variables & secrets
 .env
 .env.development.local
 .env.test.local
 .env.production.local
 .env.local
+
+# Dependency cache
+vendor/

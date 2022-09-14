@@ -6,6 +6,7 @@ import {
   responseTimer,
 } from "../middleware/mod.ts";
 import { Application } from "oak";
+import { oakCors } from "cors";
 
 interface IServerDependencies {
   configuration: {
@@ -14,6 +15,12 @@ interface IServerDependencies {
       port: number;
       apiPrefix: string;
     };
+    https: {
+      secure: boolean;
+      certFile: string;
+      keyFile: string;
+    };
+    allowedOrigins: string[];
     endpoints: RouteGroup[];
   };
 }
@@ -24,6 +31,10 @@ export class Server implements IServer {
   private router: Router;
   private name: string;
   private port: number;
+  private secure: boolean;
+  private certFile: string;
+  private keyFile: string;
+  private allowedOrigins: string[];
   private endpoints: RouteGroup[];
 
   constructor({
@@ -33,6 +44,12 @@ export class Server implements IServer {
         port,
         apiPrefix,
       },
+      https: {
+        secure,
+        certFile,
+        keyFile,
+      },
+      allowedOrigins,
       endpoints,
     },
   }: IServerDependencies) {
@@ -41,6 +58,10 @@ export class Server implements IServer {
     this.router = new Router({ apiPrefix });
     this.name = name;
     this.port = port;
+    this.secure = secure;
+    this.certFile = certFile;
+    this.keyFile = keyFile;
+    this.allowedOrigins = allowedOrigins;
     this.endpoints = endpoints;
   }
 
@@ -69,6 +90,7 @@ export class Server implements IServer {
 
   private registerApplicationMiddleware(): void {
     this.app.use(
+      oakCors({ origin: this.allowedOrigins }),
       errorHandler,
       requestLogger,
       responseTimer,
@@ -87,7 +109,7 @@ export class Server implements IServer {
 
   private addErrorListener(): void {
     this.app.addEventListener("error", ({ error }) => {
-      log.error("Uh oh! An error occured: ", error);
+      log.error("Uh oh! An error occured:", error);
     });
   }
 
@@ -104,6 +126,9 @@ export class Server implements IServer {
 
     await this.app.listen({
       port: this.port,
+      secure: this.secure,
+      certFile: this.certFile,
+      keyFile: this.keyFile,
       signal,
     });
   }
