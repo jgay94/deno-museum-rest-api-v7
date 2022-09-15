@@ -2,7 +2,7 @@ import { Server } from "./framework/mod.ts";
 import { config } from "std/dotenv/mod.ts";
 import { healthcheck, museums } from "./routes/mod.ts";
 
-const env = await config({ safe: true })
+const env = await config({ safe: true });
 
 const server = new Server({
   configuration: {

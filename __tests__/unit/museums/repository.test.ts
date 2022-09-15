@@ -32,6 +32,7 @@ describe("MuseumRepository.findAll", () => {
           lat: 1,
           lng: 1,
         },
+        createdAt: "2022-09-15T10:27:46.093Z",
       },
     ]);
     const museumList = await museumRepository.findAll();
@@ -42,6 +43,31 @@ describe("MuseumRepository.findAll", () => {
     assertArrayIncludes(museumList, [museum]);
 
     assertEquals(museum.id, "1");
+    assertEquals(museum.name, "Museum 1");
+    assertEquals(museum.description, "Description 1");
+    assertEquals(museum.location.lat, 1);
+    assertEquals(museum.location.lng, 1);
+    assertEquals(museum.createdAt, "2022-09-15T10:27:46.093Z");
+  });
+});
+
+describe("MuseumRepository.create", () => {
+  let museumRepository: MuseumRepository;
+
+  beforeEach(() => {
+    museumRepository = new MuseumRepository();
+  });
+
+  it("should create a new museum", async () => {
+    const museum = await museumRepository.create({
+      name: "Museum 1",
+      description: "Description 1",
+      location: {
+        lat: 1,
+        lng: 1,
+      },
+    });
+
     assertEquals(museum.name, "Museum 1");
     assertEquals(museum.description, "Description 1");
     assertEquals(museum.location.lat, 1);

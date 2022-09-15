@@ -3,6 +3,7 @@ export type {
   IMuseumRepository,
   IMuseumService,
   Museum,
+  NewMuseum,
 } from "./typings.d.ts";
 
 export { Controller } from "./controller.ts";
