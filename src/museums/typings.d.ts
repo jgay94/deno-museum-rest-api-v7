@@ -14,12 +14,22 @@ export type Museum = {
 
 export type NewMuseum = Partial<Museum>;
 
+export type NewMuseumPayload = {
+  name: string;
+  description: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+};
+
 export interface IMuseumController {
   findAll(ctx: RouterContext<string>): Promise<void>;
 }
 
 export interface IMuseumService {
   findAll(): Promise<Museum[]>;
+  create(museum: NewMuseumPayload): Promise<Museum>;
 }
 
 export interface IMuseumRepository {

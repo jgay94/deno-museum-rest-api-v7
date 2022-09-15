@@ -4,6 +4,7 @@ export type {
   IMuseumService,
   Museum,
   NewMuseum,
+  NewMuseumPayload,
 } from "./typings.d.ts";
 
 export { Controller } from "./controller.ts";

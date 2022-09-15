@@ -4,14 +4,15 @@ import {
   assertEquals,
   assertInstanceOf,
 } from "std/testing/asserts.ts";
-import { Repository as MuseumRepository } from "/src/museums/mod.ts";
-import { Service as MuseumService } from "/src/museums/mod.ts";
+import {
+  Repository as MuseumRepository,
+  Service as MuseumService,
+} from "/src/museums/mod.ts";
 
 describe("Find all museums", () => {
   let museumRepository: MuseumRepository;
 
   beforeEach(() => {
-    // reset the museum repository before each test
     museumRepository = new MuseumRepository();
   });
 
@@ -35,6 +36,7 @@ describe("Find all museums", () => {
           lat: 1,
           lng: 1,
         },
+        createdAt: "2022-09-15T11:42:55.936Z",
       },
     ]);
     const museumService = new MuseumService({ museumRepository });
@@ -50,6 +52,34 @@ describe("Find all museums", () => {
     assertEquals(museum.description, "Description 1");
     assertEquals(museum.location.lat, 1);
     assertEquals(museum.location.lng, 1);
+    assertEquals(museum.createdAt, "2022-09-15T11:42:55.936Z");
     console.log(museumList);
+  });
+});
+
+describe("Create a new museum", () => {
+  let museumRepository: MuseumRepository;
+  let museumService: MuseumService;
+
+  beforeEach(() => {
+    museumRepository = new MuseumRepository();
+    museumService = new MuseumService({ museumRepository });
+  });
+
+  it("should create a new museum", async () => {
+    const newMuseum = await museumService.create({
+      name: "Museum 1",
+      description: "Description 1",
+      location: {
+        lat: 1,
+        lng: 1,
+      },
+    });
+
+    assertEquals(newMuseum.name, "Museum 1");
+    assertEquals(newMuseum.description, "Description 1");
+    assertEquals(newMuseum.location.lat, 1);
+    assertEquals(newMuseum.location.lng, 1);
+    console.log(newMuseum);
   });
 });
