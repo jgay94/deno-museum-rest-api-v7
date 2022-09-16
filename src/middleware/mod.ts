@@ -5,3 +5,4 @@ export { responseTimer } from "./responsetimer.ts";
 
 // router middleware
 export { testHeader } from "./testheader.ts";
+export * as validate from "./validator.ts";
