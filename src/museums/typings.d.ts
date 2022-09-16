@@ -36,4 +36,5 @@ export interface IMuseumService {
 export interface IMuseumRepository {
   findAll(): Promise<Museum[]>;
   create(museum: NewMuseum): Promise<Museum>;
+  getById(id: string): Promise<Museum>;
 }
