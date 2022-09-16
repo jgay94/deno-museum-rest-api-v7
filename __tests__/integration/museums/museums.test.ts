@@ -83,3 +83,44 @@ describe("Create a new museum", () => {
     console.log(newMuseum);
   });
 });
+
+describe("Get museum by id", () => {
+  let museumRepository: MuseumRepository;
+  let museumService: MuseumService;
+
+  beforeEach(() => {
+    museumRepository = new MuseumRepository();
+    museumRepository.loadFixtures([
+      {
+        id: "5456d1c4-7ad0-40aa-87a9-cd23c41fc5ae",
+        name: "Museum 1",
+        description: "Description 1",
+        location: {
+          lat: 1,
+          lng: 1,
+        },
+        createdAt: "2022-09-16T23:02:05.393Z",
+      },
+    ]);
+    museumService = new MuseumService({ museumRepository });
+  });
+
+  it("should return a museum by id", async () => {
+    const museum = await museumService.getById("5456d1c4-7ad0-40aa-87a9-cd23c41fc5ae");
+
+    assertEquals(museum?.id, "5456d1c4-7ad0-40aa-87a9-cd23c41fc5ae");
+    assertEquals(museum?.name, "Museum 1");
+    assertEquals(museum?.description, "Description 1");
+    assertEquals(museum?.location.lat, 1);
+    assertEquals(museum?.location.lng, 1);
+    assertEquals(museum?.createdAt, "2022-09-16T23:02:05.393Z");
+    console.log(museum);
+  });
+
+  it("should return null if id not found", async () => {
+    const museum = await museumService.getById("");
+
+    assertEquals(museum, null);
+    console.log(museum);
+  });
+});

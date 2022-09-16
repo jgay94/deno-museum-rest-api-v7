@@ -31,10 +31,11 @@ export interface IMuseumController {
 export interface IMuseumService {
   findAll(): Promise<Museum[]>;
   create(museum: NewMuseumPayload): Promise<Museum>;
+  getById(id: string): Promise<Museum | null>;
 }
 
 export interface IMuseumRepository {
   findAll(): Promise<Museum[]>;
   create(museum: NewMuseum): Promise<Museum>;
-  getById(id: string): Promise<Museum>;
+  getById(id: string): Promise<Museum | null>;
 }

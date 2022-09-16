@@ -23,12 +23,12 @@ export class Repository implements IMuseumRepository {
     return newMuseum;
   }
 
-  public async getById(id: string): Promise<Museum> {
+  public async getById(id: string): Promise<Museum | null> {
     const museumList = await this.findAll();
-    const museum = museumList.find((museum) => museum.id === id);
+    const museum = museumList.find((m) => m.id === id);
 
     if (!museum) {
-      throw new Error("Museum not found");
+      return null;
     }
 
     return museum;

@@ -25,7 +25,7 @@ describe("MuseumRepository.findAll", () => {
   it("should return a list of museums", async () => {
     museumRepository.loadFixtures([
       {
-        id: "1",
+        id: "763bc1ff-b4da-4247-93a1-90fe4b7c947d",
         name: "Museum 1",
         description: "Description 1",
         location: {
@@ -43,7 +43,7 @@ describe("MuseumRepository.findAll", () => {
     assertEquals(museumList.length, 1);
     assertArrayIncludes(museumList, [museum]);
 
-    assertEquals(museum.id, "1");
+    assertEquals(museum.id, "763bc1ff-b4da-4247-93a1-90fe4b7c947d");
     assertEquals(museum.name, "Museum 1");
     assertEquals(museum.description, "Description 1");
     assertEquals(museum.location.lat, 1);
@@ -81,9 +81,6 @@ describe("MuseumRepository.getById", () => {
 
   beforeEach(() => {
     museumRepository = new MuseumRepository();
-  });
-
-  it("should return a museum by id", async () => {
     museumRepository.loadFixtures([
       {
         id: "3504fac6-4a4d-491c-962e-2af3ed6d94b4",
@@ -96,15 +93,24 @@ describe("MuseumRepository.getById", () => {
         createdAt: "2022-09-16T09:36:52.356Z",
       },
     ]);
+  });
 
+  it("should return a museum by id", async () => {
     const museum = await museumRepository.getById(
       "3504fac6-4a4d-491c-962e-2af3ed6d94b4",
     );
 
-    assertEquals(museum.name, "Museum 1");
-    assertEquals(museum.description, "Description 1");
-    assertEquals(museum.location.lat, 1);
-    assertEquals(museum.location.lng, 1);
-    assertEquals(museum.createdAt, "2022-09-16T09:36:52.356Z");
+    assertEquals(museum?.name, "Museum 1");
+    assertEquals(museum?.description, "Description 1");
+    assertEquals(museum?.location.lat, 1);
+    assertEquals(museum?.location.lng, 1);
+  });
+
+  it("should return null if id not found", async () => {
+    const museum = await museumRepository.getById(
+      "",
+    );
+
+    assertEquals(museum, null);
   });
 });
