@@ -45,7 +45,7 @@ describe("MuseumService.findAll", () => {
         },
         getById: async () => {
           throw new Error("Not implemented");
-        }
+        },
       },
     });
     const museumList = await museumService.findAll();
@@ -74,7 +74,7 @@ describe("MuseumService.create", () => {
         create: async (museum: Museum) => museum,
         getById: async () => {
           throw new Error("Not implemented");
-        }
+        },
       },
     });
   });
@@ -118,7 +118,7 @@ describe("MuseumRepository.getById", () => {
         getById: async (id: string) => {
           const museumList = await museumService.findAll();
           return museumList.find((m) => m.id === id) ?? null;
-        }
+        },
       },
     });
   });
@@ -135,7 +135,7 @@ describe("MuseumRepository.getById", () => {
     assertEquals(museum?.location.lng, 1);
     assertEquals(museum?.createdAt, "2022-09-16T10:25:09.367Z");
   });
-  
+
   it("should return null if id not found", async () => {
     const museum = await museumService.getById(
       "",

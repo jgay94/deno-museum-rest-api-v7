@@ -19,7 +19,9 @@ export class Service implements IMuseumService {
 
   public async findAll(): Promise<Museum[]> {
     const museumList = await this.museumRepository.findAll();
-    log.info(`[${new Date().toISOString()}] Found ${museumList.length} museums...`);
+    log.info(
+      `[${new Date().toISOString()}] Found ${museumList.length} museums...`,
+    );
 
     return museumList;
   }

@@ -35,7 +35,7 @@ describe("MuseumRepository.findAll", () => {
         createdAt: "2022-09-15T10:27:46.093Z",
       },
     ]);
-    
+
     const museumList = await museumRepository.findAll();
     const museum = museumList[0];
 

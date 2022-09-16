@@ -106,7 +106,9 @@ describe("Get museum by id", () => {
   });
 
   it("should return a museum by id", async () => {
-    const museum = await museumService.getById("5456d1c4-7ad0-40aa-87a9-cd23c41fc5ae");
+    const museum = await museumService.getById(
+      "5456d1c4-7ad0-40aa-87a9-cd23c41fc5ae",
+    );
 
     assertEquals(museum?.id, "5456d1c4-7ad0-40aa-87a9-cd23c41fc5ae");
     assertEquals(museum?.name, "Museum 1");
