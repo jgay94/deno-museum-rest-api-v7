@@ -1,5 +1,6 @@
 import { beforeEach, describe, it } from "std/testing/bdd.ts";
 import {
+  assert,
   assertArrayIncludes,
   assertEquals,
   assertInstanceOf,
@@ -194,12 +195,13 @@ describe("MuseumRepository.delete", () => {
   });
 
   it("should delete a museum", async () => {
-    await museumRepository.delete(
+    const museum = await museumRepository.delete(
       "d183bb6a-a7ed-4d5b-a78e-101d5ab29afc",
     );
 
     const museumList = await museumRepository.findAll();
 
+    assert(!museum);
     assertInstanceOf(museumList, Array);
     assertEquals(museumList.length, 0);
     assertArrayIncludes(museumList, []);

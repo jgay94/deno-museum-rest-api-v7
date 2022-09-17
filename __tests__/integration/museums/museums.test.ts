@@ -1,5 +1,6 @@
 import { beforeEach, describe, it } from "std/testing/bdd.ts";
 import {
+  assert,
   assertArrayIncludes,
   assertEquals,
   assertInstanceOf,
@@ -185,6 +186,49 @@ describe("Update museum", () => {
         createdAt: "2022-09-17T11:59:50.601Z",
       } as Museum,
     );
+
+    assertEquals(museum, null);
+    console.log(museum);
+  });
+});
+
+describe("Delete museum", () => {
+  let museumRepository: MuseumRepository;
+  let museumService: MuseumService;
+
+  beforeEach(() => {
+    museumRepository = new MuseumRepository();
+    museumRepository.loadFixtures([
+      {
+        id: "c45ccc09-c1e8-4825-bc81-66d768ccf384",
+        name: "Museum 1",
+        description: "Description 1",
+        location: {
+          lat: 1,
+          lng: 1,
+        },
+        createdAt: "2022-09-17T11:59:50.601Z",
+      },
+    ]);
+    museumService = new MuseumService({ museumRepository });
+  });
+
+  it("should delete a museum", async () => {
+    console.log(await museumService.findAll());
+
+    const museum = await museumService.delete(
+      "c45ccc09-c1e8-4825-bc81-66d768ccf384",
+    );
+
+    const museumList = await museumService.findAll();
+
+    assert(!museum);
+    assertEquals(museumList.length, 0);
+    console.log(museumList);
+  });
+
+  it("should return null if museum to delete not found", async () => {
+    const museum = await museumService.delete("");
 
     assertEquals(museum, null);
     console.log(museum);

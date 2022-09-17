@@ -56,4 +56,16 @@ export class Service implements IMuseumService {
       return updatedMuseum;
     }
   }
+
+  public async delete(id: string): Promise<void | null> {
+    const deletedMuseum = await this.museumRepository.delete(id);
+
+    if (deletedMuseum === null) {
+      log.warning(`[${new Date().toISOString()}] Museum not found: ${id}`);
+      return null;
+    } else {
+      log.info(`[${new Date().toISOString()}] Museum deleted: ${id}`);
+      return;
+    }
+  }
 }

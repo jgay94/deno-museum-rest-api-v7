@@ -1,6 +1,7 @@
 // deno-lint-ignore-file require-await
 import { beforeEach, describe, it } from "std/testing/bdd.ts";
 import {
+  assert,
   assertArrayIncludes,
   assertEquals,
   assertInstanceOf,
@@ -49,6 +50,9 @@ describe("MuseumService.findAll", () => {
         update: async () => {
           throw new Error("Not implemented");
         },
+        delete: async () => {
+          throw new Error("Not implemented");
+        },
       },
     });
     const museumList = await museumService.findAll();
@@ -73,12 +77,17 @@ describe("MuseumService.create", () => {
   beforeEach(() => {
     museumService = new MuseumService({
       museumRepository: {
-        findAll: async () => [],
+        findAll: async () => {
+          throw new Error("Not implemented");
+        },
         create: async (museum: Museum) => museum,
         getById: async () => {
           throw new Error("Not implemented");
         },
         update: async () => {
+          throw new Error("Not implemented");
+        },
+        delete: async () => {
           throw new Error("Not implemented");
         },
       },
@@ -102,7 +111,7 @@ describe("MuseumService.create", () => {
   });
 });
 
-describe("MuseumRepository.getById", () => {
+describe("MuseumService.getById", () => {
   let museumService: MuseumService;
 
   beforeEach(() => {
@@ -126,6 +135,9 @@ describe("MuseumRepository.getById", () => {
           return museumList.find((m) => m.id === id) ?? null;
         },
         update: async () => {
+          throw new Error("Not implemented");
+        },
+        delete: async () => {
           throw new Error("Not implemented");
         },
       },
@@ -154,7 +166,7 @@ describe("MuseumRepository.getById", () => {
   });
 });
 
-describe("MuseumRepository.update", () => {
+describe("MuseumService.update", () => {
   let museumService: MuseumService;
 
   beforeEach(() => {
@@ -186,6 +198,9 @@ describe("MuseumRepository.update", () => {
           } as Museum;
           if (museumIndex === -1) return null;
           return updatedMuseum;
+        },
+        delete: async () => {
+          throw new Error("Not implemented");
         },
       },
     });
@@ -226,6 +241,57 @@ describe("MuseumRepository.update", () => {
         createdAt: "2022-09-17T11:04:51.715Z",
       } as Museum,
     );
+
+    assertEquals(museum, null);
+  });
+});
+
+describe("MuseumService.delete", () => {
+  let museumService: MuseumService;
+
+  beforeEach(() => {
+    museumService = new MuseumService({
+      museumRepository: {
+        findAll: async () => [{
+          id: "8fbb780f-0425-4a05-af0d-bbe9789aa581",
+          name: "Museum 1",
+          description: "Description 1",
+          location: {
+            lat: 1,
+            lng: 1,
+          },
+          createdAt: "2022-09-17T11:04:51.715Z",
+        }],
+        create: async () => {
+          throw new Error("Not implemented");
+        },
+        getById: async () => {
+          throw new Error("Not implemented");
+        },
+        update: async () => {
+          throw new Error("Not implemented");
+        },
+        delete: async (id: string) => {
+          const museumList = await museumService.findAll();
+          const museumIndex = museumList.findIndex((m) => m.id === id);
+          if (museumIndex === -1) return null;
+          museumList.splice(museumIndex, 1);
+          return;
+        },
+      },
+    });
+  });
+
+  it("should delete a museum", async () => {
+    const museum = await museumService.delete(
+      "8fbb780f-0425-4a05-af0d-bbe9789aa581",
+    );
+
+    assert(!museum);
+  });
+
+  it("should return null if museum to delete not found", async () => {
+    const museum = await museumService.delete("");
 
     assertEquals(museum, null);
   });
