@@ -35,4 +35,21 @@ export class Controller implements IMuseumController {
       data: newMuseum,
     };
   }
+
+  public async getById(ctx: RouterContext<string>): Promise<void> {
+    if (ctx.params?.id) {
+      const museum = await this.museumService.getById(ctx.params.id);
+
+      if (!museum) {
+        ctx.throw(404);
+      } else {
+        ctx.response.status = 200;
+        ctx.response.body = {
+          success: true,
+          message: `Museum found: ${museum.name}`,
+          data: museum,
+        };
+      }
+    }
+  }
 }
