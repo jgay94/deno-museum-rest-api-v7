@@ -34,6 +34,26 @@ export class Repository implements IMuseumRepository {
     return museum;
   }
 
+  public async update(id: string, museum: Museum): Promise<Museum | null> {
+    const museumList = await this.findAll();
+    const museumIndex = museumList.findIndex((m) => m.id === id);
+    const updatedMuseum = {
+      ...museum,
+      id,
+      updatedAt: new Date().toISOString(),
+    } as Museum;
+
+    if (museumIndex === -1) {
+      return null;
+    }
+
+    museumList[museumIndex] = updatedMuseum;
+
+    sessionStorage.setItem("museums", JSON.stringify(museumList));
+
+    return updatedMuseum;
+  }
+
   public loadFixtures(museumList: Museum[]): void {
     sessionStorage.setItem("museums", JSON.stringify(museumList));
   }
