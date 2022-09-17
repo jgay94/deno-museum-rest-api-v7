@@ -173,3 +173,41 @@ describe("MuseumRepository.update", () => {
     assertEquals(museum, null);
   });
 });
+
+describe("MuseumRepository.delete", () => {
+  let museumRepository: MuseumRepository;
+
+  beforeEach(() => {
+    museumRepository = new MuseumRepository();
+    museumRepository.loadFixtures([
+      {
+        id: "d183bb6a-a7ed-4d5b-a78e-101d5ab29afc",
+        name: "Museum 1",
+        description: "Description 1",
+        location: {
+          lat: 1,
+          lng: 1,
+        },
+        createdAt: "2022-09-17T10:32:49.453Z",
+      },
+    ]);
+  });
+
+  it("should delete a museum", async () => {
+    await museumRepository.delete(
+      "d183bb6a-a7ed-4d5b-a78e-101d5ab29afc",
+    );
+
+    const museumList = await museumRepository.findAll();
+
+    assertInstanceOf(museumList, Array);
+    assertEquals(museumList.length, 0);
+    assertArrayIncludes(museumList, []);
+  });
+
+  it("should return null if museum to delete not found", async () => {
+    const museum = await museumRepository.delete("");
+
+    assertEquals(museum, null);
+  });
+});

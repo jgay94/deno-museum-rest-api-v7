@@ -54,6 +54,21 @@ export class Repository implements IMuseumRepository {
     return updatedMuseum;
   }
 
+  public async delete(id: string): Promise<void | null> {
+    const museumList = await this.findAll();
+    const museumIndex = museumList.findIndex((m) => m.id === id);
+
+    if (museumIndex === -1) {
+      return null;
+    }
+
+    museumList.splice(museumIndex, 1);
+
+    sessionStorage.setItem("museums", JSON.stringify(museumList));
+
+    return;
+  }
+
   public loadFixtures(museumList: Museum[]): void {
     sessionStorage.setItem("museums", JSON.stringify(museumList));
   }

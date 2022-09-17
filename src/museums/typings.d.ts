@@ -42,4 +42,5 @@ export interface IMuseumRepository {
   create(museum: NewMuseum): Promise<Museum>;
   getById(id: string): Promise<Museum | null>;
   update(id: string, museum: Museum): Promise<Museum | null>;
+  delete(id: string): Promise<void | null>;
 }
