@@ -46,6 +46,9 @@ describe("MuseumService.findAll", () => {
         getById: async () => {
           throw new Error("Not implemented");
         },
+        update: async () => {
+          throw new Error("Not implemented");
+        },
       },
     });
     const museumList = await museumService.findAll();
@@ -73,6 +76,9 @@ describe("MuseumService.create", () => {
         findAll: async () => [],
         create: async (museum: Museum) => museum,
         getById: async () => {
+          throw new Error("Not implemented");
+        },
+        update: async () => {
           throw new Error("Not implemented");
         },
       },
@@ -119,6 +125,9 @@ describe("MuseumRepository.getById", () => {
           const museumList = await museumService.findAll();
           return museumList.find((m) => m.id === id) ?? null;
         },
+        update: async () => {
+          throw new Error("Not implemented");
+        },
       },
     });
   });
@@ -139,6 +148,83 @@ describe("MuseumRepository.getById", () => {
   it("should return null if id not found", async () => {
     const museum = await museumService.getById(
       "",
+    );
+
+    assertEquals(museum, null);
+  });
+});
+
+describe("MuseumRepository.update", () => {
+  let museumService: MuseumService;
+
+  beforeEach(() => {
+    museumService = new MuseumService({
+      museumRepository: {
+        findAll: async () => [{
+          id: "8fbb780f-0425-4a05-af0d-bbe9789aa581",
+          name: "Museum 1",
+          description: "Description 1",
+          location: {
+            lat: 1,
+            lng: 1,
+          },
+          createdAt: "2022-09-17T11:04:51.715Z",
+        }],
+        create: async () => {
+          throw new Error("Not implemented");
+        },
+        getById: async () => {
+          throw new Error("Not implemented");
+        },
+        update: async (id: string, museum: Museum) => {
+          const museumList = await museumService.findAll();
+          const museumIndex = museumList.findIndex((m) => m.id === id);
+          const updatedMuseum = {
+            ...museum,
+            id,
+            updatedAt: new Date().toISOString(),
+          } as Museum;
+          if (museumIndex === -1) return null;
+          return updatedMuseum;
+        },
+      },
+    });
+  });
+
+  it("should update a museum", async () => {
+    const museum = await museumService.update(
+      "8fbb780f-0425-4a05-af0d-bbe9789aa581",
+      {
+        name: "Museum 2",
+        description: "Description 2",
+        location: {
+          lat: 2,
+          lng: 2,
+        },
+        createdAt: "2022-09-17T11:04:51.715Z",
+      } as Museum,
+    );
+
+    assertEquals(museum?.id, "8fbb780f-0425-4a05-af0d-bbe9789aa581");
+    assertEquals(museum?.name, "Museum 2");
+    assertEquals(museum?.description, "Description 2");
+    assertEquals(museum?.location.lat, 2);
+    assertEquals(museum?.location.lng, 2);
+    assertEquals(museum?.createdAt, "2022-09-17T11:04:51.715Z");
+  });
+
+  it("should return null if museum to update not found", async () => {
+    const museum = await museumService.update(
+      "",
+      {
+        name: "Museum 2",
+        description: "Description 2",
+        location: {
+          lat: 2,
+          lng: 2,
+        },
+        createdAt: "2022-09-17T11:04:51.715Z",
+      } as Museum,
     );
 
     assertEquals(museum, null);

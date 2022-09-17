@@ -44,4 +44,16 @@ export class Service implements IMuseumService {
       return museum;
     }
   }
+
+  public async update(id: string, museum: Museum): Promise<Museum | null> {
+    const updatedMuseum = await this.museumRepository.update(id, museum);
+
+    if (!updatedMuseum) {
+      log.warning(`[${new Date().toISOString()}] Museum not found: ${id}`);
+      return null;
+    } else {
+      log.info(`[${new Date().toISOString()}] Museum updated: ${id}`);
+      return updatedMuseum;
+    }
+  }
 }

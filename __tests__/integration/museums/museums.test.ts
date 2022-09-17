@@ -5,6 +5,7 @@ import {
   assertInstanceOf,
 } from "std/testing/asserts.ts";
 import {
+  Museum,
   Repository as MuseumRepository,
   Service as MuseumService,
 } from "/src/museums/mod.ts";
@@ -121,6 +122,69 @@ describe("Get museum by id", () => {
 
   it("should return null if id not found", async () => {
     const museum = await museumService.getById("");
+
+    assertEquals(museum, null);
+    console.log(museum);
+  });
+});
+
+describe("Update museum", () => {
+  let museumRepository: MuseumRepository;
+  let museumService: MuseumService;
+
+  beforeEach(() => {
+    museumRepository = new MuseumRepository();
+    museumRepository.loadFixtures([
+      {
+        id: "c45ccc09-c1e8-4825-bc81-66d768ccf384",
+        name: "Museum 1",
+        description: "Description 1",
+        location: {
+          lat: 1,
+          lng: 1,
+        },
+        createdAt: "2022-09-17T11:59:50.601Z",
+      },
+    ]);
+    museumService = new MuseumService({ museumRepository });
+  });
+
+  it("should update a museum", async () => {
+    const museum = await museumService.update(
+      "c45ccc09-c1e8-4825-bc81-66d768ccf384",
+      {
+        name: "Museum 2",
+        description: "Description 2",
+        location: {
+          lat: 2,
+          lng: 2,
+        },
+        createdAt: "2022-09-17T11:59:50.601Z",
+      } as Museum,
+    );
+
+    assertEquals(museum?.id, "c45ccc09-c1e8-4825-bc81-66d768ccf384");
+    assertEquals(museum?.name, "Museum 2");
+    assertEquals(museum?.description, "Description 2");
+    assertEquals(museum?.location.lat, 2);
+    assertEquals(museum?.location.lng, 2);
+    assertEquals(museum?.createdAt, "2022-09-17T11:59:50.601Z");
+    console.log(museum);
+  });
+
+  it("should return null if museum to update not found", async () => {
+    const museum = await museumService.update(
+      "",
+      {
+        name: "Museum 2",
+        description: "Description 2",
+        location: {
+          lat: 2,
+          lng: 2,
+        },
+        createdAt: "2022-09-17T11:59:50.601Z",
+      } as Museum,
+    );
 
     assertEquals(museum, null);
     console.log(museum);

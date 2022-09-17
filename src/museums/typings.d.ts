@@ -33,6 +33,7 @@ export interface IMuseumService {
   findAll(): Promise<Museum[]>;
   create(museum: NewMuseumPayload): Promise<Museum>;
   getById(id: string): Promise<Museum | null>;
+  update(id: string, museum: Museum): Promise<Museum | null>;
 }
 
 export interface IMuseumRepository {
