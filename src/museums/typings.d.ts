@@ -28,6 +28,7 @@ export interface IMuseumController {
   create(ctx: RouterContext<string>): Promise<void>;
   getById(ctx: RouterContext<string>): Promise<void>;
   update(ctx: RouterContext<string>): Promise<void>;
+  delete(ctx: RouterContext<string>): Promise<void>;
 }
 
 export interface IMuseumService {

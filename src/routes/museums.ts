@@ -32,5 +32,11 @@ export const museums: RouteGroup = {
       middleware: [],
       handler: (c) => museumsController.update(c),
     },
+    {
+      method: "delete",
+      path: "/:id",
+      middleware: [],
+      handler: (c) => museumsController.delete(c),
+    },
   ],
 };

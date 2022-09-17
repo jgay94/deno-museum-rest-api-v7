@@ -52,7 +52,7 @@ export class Service implements IMuseumService {
       log.warning(`[${new Date().toISOString()}] Museum not found: ${id}`);
       return null;
     } else {
-      log.info(`[${new Date().toISOString()}] Museum updated: ${id}`);
+      log.info(`[${new Date().toISOString()}] Museum updated: ${updatedMuseum.name}`);
       return updatedMuseum;
     }
   }

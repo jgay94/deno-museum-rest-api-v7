@@ -70,4 +70,16 @@ export class Controller implements IMuseumController {
       }
     }
   }
+
+  public async delete(ctx: RouterContext<string>): Promise<void> {
+    if (ctx.params?.id) {
+      const deletedMuseum = await this.museumService.delete(ctx.params.id);
+
+      if (deletedMuseum === null) {
+        ctx.throw(404);
+      } else {
+        ctx.response.status = 204;
+      }
+    }
+  }
 }
