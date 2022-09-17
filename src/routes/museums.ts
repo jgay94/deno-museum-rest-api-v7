@@ -26,5 +26,11 @@ export const museums: RouteGroup = {
       middleware: [],
       handler: (c) => museumsController.getById(c),
     },
+    {
+      method: "put",
+      path: "/:id",
+      middleware: [],
+      handler: (c) => museumsController.update(c),
+    },
   ],
 };

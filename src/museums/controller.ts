@@ -52,4 +52,22 @@ export class Controller implements IMuseumController {
       }
     }
   }
+
+  public async update(ctx: RouterContext<string>): Promise<void> {
+    if (ctx.params?.id) {
+      const payload = await ctx.request.body().value;
+      const updatedMuseum = await this.museumService.update(ctx.params.id, payload);
+
+      if (!updatedMuseum) {
+        ctx.throw(404);
+      } else {
+        ctx.response.status = 200;
+        ctx.response.body = {
+          success: true,
+          message: `Museum updated: ${updatedMuseum.name}`,
+          data: updatedMuseum,
+        };
+      }
+    }
+  }
 }
