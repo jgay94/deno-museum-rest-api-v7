@@ -1,5 +1,11 @@
 import { userToUserDto } from "./adapter.ts";
-import { IUserService, IUserRepository, User, NewUserPayload, UserDto, NewUser } from "./mod.ts";
+import {
+  IUserRepository,
+  IUserService,
+  NewUser,
+  NewUserPayload,
+  UserDto,
+} from "./mod.ts";
 import * as bcrypt from "bcrypt";
 
 interface IServiceDependencies {
@@ -27,7 +33,10 @@ export class Service implements IUserService {
     return userToUserDto(user);
   }
 
-  private async getHashedUser(username: string, password: string): Promise<NewUser> {
+  private async getHashedUser(
+    username: string,
+    password: string,
+  ): Promise<NewUser> {
     const salt = await bcrypt.genSalt(8);
     const hash = await bcrypt.hash(password, salt);
     const user = { username, hash, salt };

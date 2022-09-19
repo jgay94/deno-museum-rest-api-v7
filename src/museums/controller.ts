@@ -23,16 +23,16 @@ export class Controller implements IMuseumController {
     };
   }
 
-  public async create({ request, response }: RouterContext<string>): Promise<void> {
-    const payload = await request.body().value;
-    const newMuseum = await this.museumService.create(payload);
+  public async create(ctx: RouterContext<string>): Promise<void> {
+    const payload = await ctx.request.body().value;
+    const museum = await this.museumService.create(payload);
 
-    response.status = 201;
-    response.headers.set("Location", `/museums/${newMuseum.id}`);
-    response.body = {
+    ctx.response.status = 201;
+    ctx.response.headers.set("Location", `/museums/${museum.id}`);
+    ctx.response.body = {
       success: true,
-      message: `Museum created: ${newMuseum.name}`,
-      data: newMuseum,
+      message: `Museum created: ${museum.name}`,
+      data: museum,
     };
   }
 
@@ -56,16 +56,19 @@ export class Controller implements IMuseumController {
   public async update(ctx: RouterContext<string>): Promise<void> {
     if (ctx.params?.id) {
       const payload = await ctx.request.body().value;
-      const updatedMuseum = await this.museumService.update(ctx.params.id, payload);
+      const museum = await this.museumService.update(
+        ctx.params.id,
+        payload,
+      );
 
-      if (!updatedMuseum) {
+      if (!museum) {
         ctx.throw(404);
       } else {
         ctx.response.status = 200;
         ctx.response.body = {
           success: true,
-          message: `Museum updated: ${updatedMuseum.name}`,
-          data: updatedMuseum,
+          message: `Museum updated: ${museum.name}`,
+          data: museum,
         };
       }
     }
@@ -73,9 +76,9 @@ export class Controller implements IMuseumController {
 
   public async delete(ctx: RouterContext<string>): Promise<void> {
     if (ctx.params?.id) {
-      const deletedMuseum = await this.museumService.delete(ctx.params.id);
+      const museum = await this.museumService.delete(ctx.params.id);
 
-      if (deletedMuseum === null) {
+      if (museum === null) {
         ctx.throw(404);
       } else {
         ctx.response.status = 204;
