@@ -9,11 +9,9 @@ export class Repository implements IMuseumRepository {
 
   public async create(museum: NewMuseum): Promise<Museum> {
     const museumList = await this.findAll();
-    const newMuseum = {
-      ...museum,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-    } as Museum;
+    const id = crypto.randomUUID();
+    const createdAt = new Date().toISOString();
+    const newMuseum = { ...museum, id, createdAt } as Museum;
 
     sessionStorage.setItem(
       "museums",

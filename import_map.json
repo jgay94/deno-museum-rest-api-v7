@@ -5,6 +5,7 @@
     "std/": "https://deno.land/std@0.155.0/",
     "oak": "https://deno.land/x/oak@v11.1.0/mod.ts",
     "cors": "https://deno.land/x/cors@v1.2.2/mod.ts",
-    "computed-types": "https://denoporter.sirjosh.workers.dev/v1/deno.land/x/computed_types/src/index.ts"
+    "computed-types": "https://denoporter.sirjosh.workers.dev/v1/deno.land/x/computed_types/src/index.ts",
+    "bcrypt": "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
   }
 }
