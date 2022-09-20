@@ -3,9 +3,7 @@ export type {
   IUserRepository,
   IUserService,
   NewUser,
-  NewUserPayload,
   User,
-  UserDto,
 } from "./typings.d.ts";
 
 export { Controller, Repository, Service };

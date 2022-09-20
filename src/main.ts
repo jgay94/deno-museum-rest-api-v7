@@ -1,6 +1,6 @@
 import { Server } from "./framework/mod.ts";
 import { config } from "std/dotenv/mod.ts";
-import { healthcheck, museums, users } from "./routes/mod.ts";
+import { auth, healthcheck, museums, users } from "./routes/mod.ts";
 
 const env = await config({ safe: true });
 
@@ -20,6 +20,7 @@ const server = new Server({
       env.LOCALHOST,
     ],
     endpoints: [
+      auth,
       healthcheck,
       museums,
       users,

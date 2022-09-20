@@ -1,0 +1,17 @@
+import { RouteGroup } from "/src/framework/mod.ts";
+import { authController } from "/src/auth/mod.ts";
+
+export const auth: RouteGroup = {
+  group: {
+    prefix: "",
+    middleware: [],
+  },
+  routes: [
+    {
+      method: "post",
+      path: "/register",
+      middleware: [],
+      handler: (c) => authController.register(c),
+    },
+  ],
+};

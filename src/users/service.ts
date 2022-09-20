@@ -1,12 +1,5 @@
-import { userToUserDto } from "./adapter.ts";
-import {
-  IUserRepository,
-  IUserService,
-  NewUser,
-  NewUserPayload,
-  UserDto,
-} from "./mod.ts";
-import * as bcrypt from "bcrypt";
+import { IUserRepository, IUserService, NewUser, User } from "./mod.ts";
+import * as log from "std/log/mod.ts";
 
 interface IServiceDependencies {
   userRepository: IUserRepository;
@@ -19,28 +12,28 @@ export class Service implements IUserService {
     this.userRepository = userRepository;
   }
 
-  public async register(payload: NewUserPayload): Promise<UserDto> {
-    const { username, password } = payload;
+  public async findAll(): Promise<User[]> {
+    const userList = await this.userRepository.findAll();
+    log.info(`[${new Date().toISOString()}] Found ${userList.length} users...`);
 
-    if (await this.userRepository.exists(username)) {
-      throw new Error("User already exists");
-    }
-
-    const user = await this.userRepository.create(
-      await this.getHashedUser(username, password),
-    );
-
-    return userToUserDto(user);
+    return userList;
   }
 
-  private async getHashedUser(
-    username: string,
-    password: string,
-  ): Promise<NewUser> {
-    const salt = await bcrypt.genSalt(8);
-    const hash = await bcrypt.hash(password, salt);
-    const user = { username, hash, salt };
+  public async exists(username: string): Promise<boolean> {
+    const user = await this.userRepository.exists(username);
 
-    return user;
+    if (user) {
+      log.info(`[${new Date().toISOString()}] User exists: ${username}`);
+      return true;
+    }
+
+    return false;
+  }
+
+  public async create(user: NewUser): Promise<User> {
+    const newUser = await this.userRepository.create(user);
+    log.info(`[${new Date().toISOString()}] User created: ${newUser.username}`);
+
+    return newUser;
   }
 }

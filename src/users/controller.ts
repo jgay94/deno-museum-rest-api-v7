@@ -12,15 +12,10 @@ export class Controller implements IUserController {
     this.userService = userService;
   }
 
-  public async register(ctx: RouterContext<string>): Promise<void> {
-    const { username, password } = await ctx.request.body().value;
-    const user = await this.userService.register({ username, password });
+  public async findAll(ctx: RouterContext<string>): Promise<void> {
+    const userList = await this.userService.findAll();
 
-    if (!username || !password) {
-      ctx.throw(400, "Username and password are required");
-    }
-
-    ctx.response.status = 201;
-    ctx.response.body = user;
+    ctx.response.status = 200;
+    ctx.response.body = userList;
   }
 }

@@ -8,10 +8,10 @@ export const users: RouteGroup = {
   },
   routes: [
     {
-      method: "post",
+      method: "get",
       path: "/",
       middleware: [],
-      handler: (c) => userController.register(c),
+      handler: (c) => userController.findAll(c),
     },
   ],
 };
