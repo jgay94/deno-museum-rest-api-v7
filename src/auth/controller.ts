@@ -28,4 +28,21 @@ export class Controller implements IAuthController {
     ctx.response.status = 201;
     ctx.response.body = user;
   }
+
+  public async login(ctx: RouterContext<string>): Promise<void> {
+    const { username, password } = await ctx.request.body().value;
+
+    if (!username || !password) {
+      ctx.throw(400, "Username and password are required");
+    }
+
+    const user = await this.authService.login({ username, password });
+
+    if (!user) {
+      ctx.throw(400, "Invalid username or password");
+    }
+
+    ctx.response.status = 200;
+    ctx.response.body = user;
+  }
 }

@@ -1,7 +1,8 @@
-import { IAuthService, RegisterDTO, RegisterPayload } from "./mod.ts";
-import { convertToRegisterDTO } from "./helpers.ts";
+import { IAuthService, LoginPayload, RegisterPayload, UserDTO } from "./mod.ts";
+import { convertToUserDTO } from "./helpers.ts";
 import { IUserService, NewUser } from "/src/users/mod.ts";
 import * as bcrypt from "bcrypt";
+import * as log from "std/log/mod.ts";
 
 interface IServiceDependencies {
   userService: IUserService;
@@ -14,7 +15,7 @@ export class Service implements IAuthService {
     this.userService = userService;
   }
 
-  public async register(payload: RegisterPayload): Promise<RegisterDTO | null> {
+  public async register(payload: RegisterPayload): Promise<UserDTO | null> {
     const { username, password } = payload;
 
     if (await this.userService.exists(username)) {
@@ -25,7 +26,33 @@ export class Service implements IAuthService {
       await this.hashPassword(username, password),
     );
 
-    return convertToRegisterDTO(user);
+    return convertToUserDTO(user);
+  }
+
+  public async login(payload: LoginPayload): Promise<UserDTO | null> {
+    const { username, password } = payload;
+
+    const user = await this.userService.getByUsername(username);
+
+    if (!user) {
+      return null;
+    }
+
+    const isValid = await this.comparePasswords(password, user.hash);
+
+    if (!isValid) {
+      return null;
+    }
+
+    log.info(`[${new Date().toISOString()}] User logged in: ${username}`);
+    return convertToUserDTO(user);
+  }
+
+  private async comparePasswords(
+    password: string,
+    hash: string,
+  ): Promise<boolean> {
+    return await bcrypt.compare(password, hash);
   }
 
   private async hashPassword(

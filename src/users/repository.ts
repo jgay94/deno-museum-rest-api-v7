@@ -28,4 +28,11 @@ export class Repository implements IUserRepository {
 
     return newUser;
   }
+
+  public async getByUsername(username: string): Promise<User | null> {
+    const userList = await this.findAll();
+    const user = userList.find((u) => u.username === username);
+
+    return user ?? null;
+  }
 }

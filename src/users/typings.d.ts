@@ -18,10 +18,12 @@ export interface IUserService {
   findAll(): Promise<User[]>;
   exists(username: string): Promise<boolean>;
   create(user: NewUser): Promise<User>;
+  getByUsername(username: string): Promise<User | null>;
 }
 
 export interface IUserRepository {
   findAll(): Promise<User[]>;
   exists(username: string): Promise<boolean>;
   create(user: NewUser): Promise<User>;
+  getByUsername(username: string): Promise<User | null>;
 }

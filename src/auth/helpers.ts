@@ -1,7 +1,7 @@
-import { RegisterDTO } from "./mod.ts";
+import { UserDTO } from "./mod.ts";
 import { User } from "/src/users/mod.ts";
 
-export const convertToRegisterDTO = (user: User): RegisterDTO => {
+export const convertToUserDTO = (user: User): UserDTO => {
   const { username, createdAt } = user;
   return { username, createdAt };
 };

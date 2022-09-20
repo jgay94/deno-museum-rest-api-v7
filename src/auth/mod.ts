@@ -1,8 +1,9 @@
 export type {
   IAuthController,
   IAuthService,
-  RegisterDTO,
+  LoginPayload,
   RegisterPayload,
+  UserDTO,
 } from "./typings.d.ts";
 
 export { Controller, Service };

@@ -36,4 +36,15 @@ export class Service implements IUserService {
 
     return newUser;
   }
+
+  public async getByUsername(username: string): Promise<User | null> {
+    const user = await this.userRepository.getByUsername(username);
+
+    if (!user) {
+      log.info(`[${new Date().toISOString()}] User not found: ${username}`);
+      return null;
+    }
+
+    return user;
+  }
 }
