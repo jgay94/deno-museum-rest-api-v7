@@ -1,21 +1,30 @@
-import { IAuthService, LoginPayload, RegisterPayload, UserDTO } from "./mod.ts";
+import {
+  AuthenticatedUser,
+  IAuthService,
+  UserDTO,
+  UserPayload,
+} from "./mod.ts";
 import { convertToUserDTO } from "./helpers.ts";
 import { IUserService, NewUser } from "/src/users/mod.ts";
 import * as bcrypt from "bcrypt";
 import * as log from "std/log/mod.ts";
+import { ITokenService } from "../tokenizer/mod.ts";
 
 interface IServiceDependencies {
   userService: IUserService;
+  tokenService: ITokenService;
 }
 
 export class Service implements IAuthService {
   private userService: IUserService;
+  private tokenService: ITokenService;
 
-  constructor({ userService }: IServiceDependencies) {
+  constructor({ userService, tokenService }: IServiceDependencies) {
     this.userService = userService;
+    this.tokenService = tokenService;
   }
 
-  public async register(payload: RegisterPayload): Promise<UserDTO | null> {
+  public async register(payload: UserPayload): Promise<UserDTO | null> {
     const { username, password } = payload;
 
     if (await this.userService.exists(username)) {
@@ -29,7 +38,7 @@ export class Service implements IAuthService {
     return convertToUserDTO(user);
   }
 
-  public async login(payload: LoginPayload): Promise<UserDTO | null> {
+  public async login(payload: UserPayload): Promise<AuthenticatedUser | null> {
     const { username, password } = payload;
 
     const user = await this.userService.getByUsername(username);
@@ -45,7 +54,10 @@ export class Service implements IAuthService {
     }
 
     log.info(`[${new Date().toISOString()}] User logged in: ${username}`);
-    return convertToUserDTO(user);
+    return {
+      user: convertToUserDTO(user),
+      tokens: await this.tokenService.generateTokens(user.username),
+    };
   }
 
   private async comparePasswords(

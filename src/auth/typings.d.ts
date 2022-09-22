@@ -1,16 +1,17 @@
 import { User } from "/src/users/mod.ts";
+import { Tokens } from "/src/tokenizer/mod.ts";
 import { RouterContext } from "oak";
 
 export type UserDTO = Pick<User, "username" | "createdAt">;
 
-export type RegisterPayload = {
+export type UserPayload = {
   username: string;
   password: string;
 };
 
-export type LoginPayload = {
-  username: string;
-  password: string;
+export type AuthenticatedUser = {
+  user: UserDTO;
+  tokens: Tokens;
 };
 
 export interface IAuthController {
@@ -19,6 +20,6 @@ export interface IAuthController {
 }
 
 export interface IAuthService {
-  register(payload: RegisterPayload): Promise<UserDTO | null>;
-  login(payload: LoginPayload): Promise<UserDTO | null>;
+  register(payload: UserPayload): Promise<UserDTO | null>;
+  login(payload: UserPayload): Promise<AuthenticatedUser | null>;
 }
