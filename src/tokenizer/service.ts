@@ -1,21 +1,21 @@
 import { Configuration, ITokenService, Tokens } from "./mod.ts";
+import { signToken } from "./helpers.ts";
 import * as base64url from "std/encoding/base64url.ts";
-import { create, getNumericDate, Header, Payload } from "djwt";
-
-export type IServiceDependencies = {
-  configuration: Configuration;
-};
 
 const defaultConfiguration: Configuration = {
   key: "SET-YOUR-KEY",
   algorithm: "HS512",
-  tokenExpirationInSeconds: 3600,
+  tokenExpirationInSeconds: 60,
 };
+
+interface IServiceDependencies {
+  configuration: Configuration;
+}
 
 export class Service implements ITokenService {
   private configuration: Configuration;
 
-  constructor(dependencies: IServiceDependencies = {configuration: defaultConfiguration }) {
+  constructor(dependencies: IServiceDependencies = { configuration: defaultConfiguration }) {
     if (dependencies.configuration.key === defaultConfiguration.key) {
       throw new Error(
         "You are using the default key. Please set your own key.",
@@ -33,24 +33,13 @@ export class Service implements ITokenService {
   }
 
   private async generateAccessToken(username: string): Promise<string> {
-    const header: Header = {
-      alg: this.configuration.algorithm,
-      typ: "JWT",
-    };
-
-    const payload: Payload = {
-      iss: "Museums App",
-      sub: username,
-      exp: getNumericDate(60 * 60),
-    };
-
-    const key = await crypto.subtle.generateKey(
-      { name: "HMAC", hash: "SHA-512" },
-      true,
-      ["sign", "verify"],
-    );
-
-    return await create(header, payload, key);
+    return await signToken({
+      issuer: "Museums App",
+      subject: username,
+      secretKey: this.configuration.key,
+      algorithm: this.configuration.algorithm,
+      tokenExpirationInSeconds: this.configuration.tokenExpirationInSeconds,
+    })
   }
 
   private generateRefreshToken(length = 40): string {

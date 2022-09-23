@@ -109,7 +109,7 @@ export class Server implements IServer {
 
   private addErrorListener(): void {
     this.app.addEventListener("error", ({ error }) => {
-      log.error("Uh oh! An error occured:", error);
+      log.error(`💥 Uh oh! An error occured: ${error.message}`);
     });
   }
 
@@ -117,7 +117,7 @@ export class Server implements IServer {
     this.app.addEventListener("listen", ({ secure, hostname, port }) => {
       const protocol = secure ? "https://" : "http://";
       const url = `${protocol}${hostname ?? "localhost"}:${port}`;
-      log.info(`${this.name} is now running on: ${url}`);
+      log.info(`🚀 ${this.name} is now running on: ${url}`);
     });
   }
 

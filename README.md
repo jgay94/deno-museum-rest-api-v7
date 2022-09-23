@@ -34,3 +34,12 @@
 ├── README.md
 └── .gitignore
 ```
+
+## Dependencies
+oak – A middleware framework for handling HTTP in Deno
+zod – TypeScript-first schema validation library
+dotenv – For loading environment variables & secrets from a .env file
+bcrypt – For hashing & comparing passwords
+djwt – For creating and verifying JSON Web Tokens in Deno or the browser
+cors – For configuring the Deno server to accept requests from cross-origin domains
+mongo – MongoDB driver for Deno
