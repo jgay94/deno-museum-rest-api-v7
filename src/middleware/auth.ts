@@ -3,7 +3,10 @@ import { Context, RouterMiddleware } from "oak";
 
 const key = Deno.env.get("JWT_SECRET_KEY") ?? "";
 
-export const auth: RouterMiddleware<string> = async (ctx: Context, next: () => Promise<unknown>): Promise<void> => {
+export const auth: RouterMiddleware<string> = async (
+  ctx: Context,
+  next: () => Promise<unknown>,
+): Promise<void> => {
   const headers = ctx.request.headers;
   const authorization = headers.get("Authorization");
   const cookie = await ctx.cookies.get("accessToken");
@@ -19,12 +22,14 @@ export const auth: RouterMiddleware<string> = async (ctx: Context, next: () => P
 
   // externalize key
   const payload = await verifyToken(token, key);
-  
+
   if (!payload) {
     ctx.throw(401, "Invalid access token");
   }
 
-  const user = await ctx.state.userService.getByUsername({ username: payload.sub });
+  const user = await ctx.state.userService.getByUsername({
+    username: payload.sub,
+  });
 
   if (!user) {
     ctx.throw(401, "Invalid access token");

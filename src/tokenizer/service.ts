@@ -15,7 +15,11 @@ interface IServiceDependencies {
 export class Service implements ITokenService {
   private configuration: Configuration;
 
-  constructor(dependencies: IServiceDependencies = { configuration: defaultConfiguration }) {
+  constructor(
+    dependencies: IServiceDependencies = {
+      configuration: defaultConfiguration,
+    },
+  ) {
     if (dependencies.configuration.key === defaultConfiguration.key) {
       throw new Error(
         "You are using the default key. Please set your own key.",
@@ -39,7 +43,7 @@ export class Service implements ITokenService {
       secretKey: this.configuration.key,
       algorithm: this.configuration.algorithm,
       tokenExpirationInSeconds: this.configuration.tokenExpirationInSeconds,
-    })
+    });
   }
 
   private generateRefreshToken(length = 40): string {

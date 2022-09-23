@@ -21,7 +21,9 @@ export class Service implements IAuthService {
   private passwordService: IPasswordService;
   private tokenService: ITokenService;
 
-  constructor({ userService, passwordService, tokenService }: IServiceDependencies) {
+  constructor(
+    { userService, passwordService, tokenService }: IServiceDependencies,
+  ) {
     this.userService = userService;
     this.passwordService = passwordService;
     this.tokenService = tokenService;

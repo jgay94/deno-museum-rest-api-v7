@@ -15,12 +15,15 @@ export async function generateKey(secretKey: string): Promise<CryptoKey> {
   );
 }
 
-export async function signToken({ issuer, subject, secretKey, algorithm, tokenExpirationInSeconds }: SignTokenConfig): Promise<string> {
+export async function signToken(
+  { issuer, subject, secretKey, algorithm, tokenExpirationInSeconds }:
+    SignTokenConfig,
+): Promise<string> {
   const header: Header = {
     alg: algorithm,
     typ: "JWT",
   };
-  
+
   const payload: Payload = {
     iss: issuer,
     sub: subject,
@@ -28,11 +31,14 @@ export async function signToken({ issuer, subject, secretKey, algorithm, tokenEx
   };
 
   const key = await generateKey(secretKey);
-  
+
   return create(header, payload, key);
 }
 
-export async function verifyToken(token: string, secretKey: string): Promise<Record<string, unknown>> {
+export async function verifyToken(
+  token: string,
+  secretKey: string,
+): Promise<Record<string, unknown>> {
   try {
     const key = await generateKey(secretKey);
     return await verify(token, key);

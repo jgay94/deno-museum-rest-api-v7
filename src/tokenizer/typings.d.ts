@@ -7,12 +7,12 @@ export type Configuration = {
 };
 
 export type SignTokenConfig = {
-  issuer: string; 
-  subject: string; 
-  secretKey: string; 
-  algorithm: Algorithm; 
+  issuer: string;
+  subject: string;
+  secretKey: string;
+  algorithm: Algorithm;
   tokenExpirationInSeconds: number;
-}
+};
 
 export type Tokens = {
   accessToken: string;

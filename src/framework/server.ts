@@ -74,7 +74,7 @@ export class Server implements IServer {
 
   public close(reason: DOMException): void {
     this.abortController.abort(reason);
-    log.warning(`${this.name} is shutting down: ${reason}...`);
+    log.warning(`🔌 ${this.name} is shutting down: ${reason}...`);
   }
 
   private initEndpoints(): void {
