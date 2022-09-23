@@ -42,6 +42,12 @@ export class Controller implements IAuthController {
       ctx.throw(400, "Invalid username or password");
     }
 
+    ctx.cookies.set("accessToken", user.tokens.accessToken, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+    });
+
     ctx.response.status = 200;
     ctx.response.body = user;
   }
