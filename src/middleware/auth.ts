@@ -1,9 +1,11 @@
+import { config } from "/src/utilities/mod.ts";
 import { verifyToken } from "/src/tokenizer/mod.ts";
+import { userService } from "/src/users/mod.ts";
 import { Context, RouterMiddleware } from "oak";
 
-const key = Deno.env.get("JWT_SECRET_KEY") ?? "";
+const key = config.auth.key ?? "";
 
-export const auth: RouterMiddleware<string> = async (
+export const routeGuard: RouterMiddleware<string> = async (
   ctx: Context,
   next: () => Promise<unknown>,
 ): Promise<void> => {
@@ -20,22 +22,15 @@ export const auth: RouterMiddleware<string> = async (
     ctx.throw(401, "No authorization token found");
   }
 
-  // externalize key
   const payload = await verifyToken(token, key);
 
-  if (!payload) {
+  const userExists = await userService.exists(payload.sub as string);
+
+  if (!userExists) {
     ctx.throw(401, "Invalid access token");
+  } else {
+    ctx.state["username"] = payload.sub;
+    await next();
+    delete ctx.state.username;
   }
-
-  const user = await ctx.state.userService.getByUsername({
-    username: payload.sub,
-  });
-
-  if (!user) {
-    ctx.throw(401, "Invalid access token");
-  }
-
-  ctx.state.user = payload.username;
-  await next();
-  delete ctx.state.userId;
 };

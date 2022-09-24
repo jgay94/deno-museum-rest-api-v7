@@ -2,7 +2,8 @@ import { Configuration, ITokenService, Tokens } from "./mod.ts";
 import { signToken } from "./helpers.ts";
 import * as base64url from "std/encoding/base64url.ts";
 
-const defaultConfiguration: Configuration = {
+const defaultConfig: Configuration = {
+  issuer: "Museums app",
   key: "SET-YOUR-KEY",
   algorithm: "HS512",
   tokenExpirationInSeconds: 60,
@@ -13,20 +14,16 @@ interface IServiceDependencies {
 }
 
 export class Service implements ITokenService {
-  private configuration: Configuration;
+  private config: Configuration;
 
-  constructor(
-    dependencies: IServiceDependencies = {
-      configuration: defaultConfiguration,
-    },
-  ) {
-    if (dependencies.configuration.key === defaultConfiguration.key) {
+  constructor(dependencies: IServiceDependencies = { configuration: defaultConfig }) {
+    if (dependencies.configuration.key === defaultConfig.key) {
       throw new Error(
         "You are using the default key. Please set your own key.",
       );
     }
 
-    this.configuration = dependencies.configuration;
+    this.config = dependencies.configuration;
   }
 
   public async generateTokens(username: string): Promise<Tokens> {
@@ -38,11 +35,11 @@ export class Service implements ITokenService {
 
   private async generateAccessToken(username: string): Promise<string> {
     return await signToken({
-      issuer: "Museums App",
+      issuer: this.config.issuer,
       subject: username,
-      secretKey: this.configuration.key,
-      algorithm: this.configuration.algorithm,
-      tokenExpirationInSeconds: this.configuration.tokenExpirationInSeconds,
+      secretKey: this.config.key,
+      algorithm: this.config.algorithm,
+      tokenExpirationInSeconds: this.config.tokenExpirationInSeconds,
     });
   }
 

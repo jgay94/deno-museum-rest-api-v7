@@ -1,20 +1,20 @@
 // deno-lint-ignore-file require-await
 import { RouteGroup } from "/src/framework/mod.ts";
-import { testHeader } from "/src/middleware/mod.ts";
+import { routeGuard, testHeader } from "/src/middleware/mod.ts";
 
 export const healthcheck: RouteGroup = {
   group: {
     prefix: "/healthcheck",
-    middleware: [],
+    middleware: [testHeader],
   },
   routes: [
     {
       method: "get",
       path: "/",
-      middleware: [testHeader],
+      middleware: [routeGuard],
       handler: async (ctx) => {
         ctx.response.status = 200;
-        ctx.response.body = { message: "I'm alive!" };
+        ctx.response.body = { success: true, message: "I'm alive!" };
       },
     },
   ],

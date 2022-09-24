@@ -1,6 +1,7 @@
 import { Algorithm } from "https://deno.land/x/djwt@v2.7/algorithm.ts";
 
 export type Configuration = {
+  issuer: string;
   key: string;
   algorithm: Algorithm;
   tokenExpirationInSeconds: number;

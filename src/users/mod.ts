@@ -15,5 +15,5 @@ import { Repository } from "./repository.ts";
 
 // manual dep injection
 const userRepository = new Repository();
-const userService = new Service({ userRepository });
+export const userService = new Service({ userRepository });
 export const userController = new Controller({ userService });
