@@ -17,6 +17,7 @@ export type AuthenticatedUser = {
 export interface IAuthController {
   register(ctx: RouterContext<string>): Promise<void>;
   login(ctx: RouterContext<string>): Promise<void>;
+  logout(ctx: RouterContext<string>): void;
 }
 
 export interface IAuthService {

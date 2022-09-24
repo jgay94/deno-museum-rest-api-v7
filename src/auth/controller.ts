@@ -51,4 +51,13 @@ export class Controller implements IAuthController {
     ctx.response.status = 200;
     ctx.response.body = user;
   }
+
+  public logout(ctx: RouterContext<string>): void {
+    ctx.cookies.delete("accessToken");
+
+    ctx.response.status = 200;
+    ctx.response.body = {
+      message: "Successfully logged out",
+    };
+  }
 }

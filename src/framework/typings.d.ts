@@ -20,7 +20,7 @@ type Route = {
     | "put";
   path: string;
   middleware: RouterMiddleware<string>[];
-  handler: (ctx: RouterContext<string>) => Promise<void>;
+  handler: (ctx: RouterContext<string>) => Promise<void> | void;
 };
 
 export interface IRouter {

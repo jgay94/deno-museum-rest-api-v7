@@ -19,5 +19,11 @@ export const auth: RouteGroup = {
       middleware: [],
       handler: (c) => authController.login(c),
     },
+    {
+      method: "get",
+      path: "/logout",
+      middleware: [],
+      handler: (c) => authController.logout(c),
+    },
   ],
 };
