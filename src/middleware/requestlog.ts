@@ -7,7 +7,7 @@ const X_RESPONSE_TIME = "X-Response-Time";
 const USER_AGENT = "User-Agent";
 const DATETIME_FORMAT = "MM-dd-yyyy hh:mm:ss";
 
-export const requestLogger: Middleware = async (
+export const requestLog: Middleware = async (
   ctx: Context,
   next: () => Promise<unknown>,
 ): Promise<void> => {

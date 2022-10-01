@@ -2,7 +2,7 @@ import { Context, Middleware } from "oak";
 
 const X_RESPONSE_TIME = "X-Response-Time";
 
-export const responseTimer: Middleware = async (
+export const responseTime: Middleware = async (
   ctx: Context,
   next: () => Promise<unknown>,
 ): Promise<void> => {

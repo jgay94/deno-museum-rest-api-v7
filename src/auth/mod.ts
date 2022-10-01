@@ -13,7 +13,7 @@ import { Service } from "./service.ts";
 import { Controller } from "./controller.ts";
 import { Repository as UserRepository } from "/src/users/mod.ts";
 import { Service as UserService } from "/src/users/mod.ts";
-import { Service as PasswordService } from "/src/password/mod.ts";
+import { Service as PasswordService } from "/src/passwordify/mod.ts";
 import { authConfig, Service as TokenService } from "/src/tokenizer/mod.ts";
 
 // manual dep injection

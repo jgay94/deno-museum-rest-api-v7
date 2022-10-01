@@ -1,10 +1,6 @@
 import { IServer, RouteGroup, Router } from "./mod.ts";
 import * as log from "std/log/mod.ts";
-import {
-  errorHandler,
-  requestLogger,
-  responseTimer,
-} from "../middleware/mod.ts";
+import { errorHandler, requestLog, responseTime } from "../middleware/mod.ts";
 import { Application } from "oak";
 import { oakCors } from "cors";
 
@@ -92,8 +88,8 @@ export class Server implements IServer {
     this.app.use(
       oakCors({ origin: this.allowedOrigins }),
       errorHandler,
-      requestLogger,
-      responseTimer,
+      requestLog,
+      responseTime,
     );
   }
 

@@ -1,7 +1,7 @@
 import * as log from "std/log/mod.ts";
 import { convertToUserDTO } from "./helpers.ts";
 import { IUserService } from "/src/users/mod.ts";
-import { IPasswordService } from "../password/mod.ts";
+import { IPasswordService } from "../passwordify/mod.ts";
 import { ITokenService } from "../tokenizer/mod.ts";
 import {
   AuthenticatedUser,

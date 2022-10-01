@@ -5,7 +5,7 @@ import { Context, RouterMiddleware } from "oak";
 
 const key = config.auth.key ?? "";
 
-export const routeGuard: RouterMiddleware<string> = async (
+export const authenticate: RouterMiddleware<string> = async (
   ctx: Context,
   next: () => Promise<unknown>,
 ): Promise<void> => {

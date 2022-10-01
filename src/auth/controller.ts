@@ -13,6 +13,10 @@ export class Controller implements IAuthController {
   }
 
   public async register(ctx: RouterContext<string>): Promise<void> {
+    if (!ctx.request.hasBody) {
+      ctx.throw(415);
+    }
+
     const { username, password } = await ctx.request.body().value;
 
     if (!username || !password) {
@@ -30,6 +34,10 @@ export class Controller implements IAuthController {
   }
 
   public async login(ctx: RouterContext<string>): Promise<void> {
+    if (!ctx.request.hasBody) {
+      ctx.throw(415);
+    }
+
     const { username, password } = await ctx.request.body().value;
 
     if (!username || !password) {
@@ -57,6 +65,7 @@ export class Controller implements IAuthController {
 
     ctx.response.status = 200;
     ctx.response.body = {
+      success: true,
       message: "Successfully logged out",
     };
   }
