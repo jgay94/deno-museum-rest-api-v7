@@ -1,4 +1,6 @@
 import { RouterContext } from "oak";
+import { z } from "zod";
+import { NewMuseumSchema } from "./mod.ts";
 
 export type Museum = {
   id: string;
@@ -22,6 +24,8 @@ export type NewMuseumPayload = {
     lng: number;
   };
 };
+
+export type NewMuseumInput = z.TypeOf<typeof NewMuseumSchema>["body"];
 
 export interface IMuseumController {
   findAll(ctx: RouterContext<string>): Promise<void>;

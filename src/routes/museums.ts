@@ -1,5 +1,5 @@
 import { RouteGroup } from "/src/framework/mod.ts";
-import { museumsController } from "/src/museums/mod.ts";
+import { museumsController, NewMuseumSchema } from "/src/museums/mod.ts";
 import { validate } from "/src/middleware/mod.ts";
 
 export const museums: RouteGroup = {
@@ -17,7 +17,7 @@ export const museums: RouteGroup = {
     {
       method: "post",
       path: "/",
-      middleware: [validate.newMuseum],
+      middleware: [validate(NewMuseumSchema)],
       handler: (c) => museumsController.create(c),
     },
     {

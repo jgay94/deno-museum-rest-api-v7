@@ -5,6 +5,7 @@ export type {
   IMuseumService,
   Museum,
   NewMuseum,
+  NewMuseumInput,
   NewMuseumPayload,
 } from "./typings.d.ts";
 

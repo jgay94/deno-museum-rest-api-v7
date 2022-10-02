@@ -1,10 +1,12 @@
-import { number, Schema, string } from "computed-types";
+import { z } from "zod";
 
-export const NewMuseumSchema = Schema({
-  name: string.trim().normalize().between(3, 40).optional(),
-  description: string.trim().normalize().between(10, 255).optional(),
-  location: {
-    lat: number,
-    lng: number,
-  },
+export const NewMuseumSchema = z.object({
+  body: z.object({
+    name: z.string({ required_error: "Name is required" }),
+    description: z.string().min(10).max(255).optional(),
+    location: z.object({
+      lat: z.number(),
+      lng: z.number(),
+    }),
+  }),
 });

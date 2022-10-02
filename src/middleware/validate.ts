@@ -1,24 +1,28 @@
-import { NewMuseumSchema } from "/src/museums/mod.ts";
-import { Context, RouterMiddleware } from "oak";
+import { helpers, RouterContext } from "oak";
+import { z } from "zod";
 
-export const newMuseum: RouterMiddleware<string> = async (
-  ctx: Context,
+export const validate = (schema: z.AnyZodObject) =>
+async (
+  ctx: RouterContext<string>,
   next: () => Promise<unknown>,
-) => {
-  const newMuseum = await ctx.request.body().value;
-  const validator = NewMuseumSchema.destruct();
-  const [err, museum] = validator(newMuseum);
+): Promise<void> => {
+  try {
+    schema.parse({
+      params: ctx.params,
+      query: helpers.getQuery(ctx),
+      body: await ctx.request.body().value,
+    });
 
-  if (!museum) {
-    ctx.response.status = 400;
-    ctx.response.body = {
-      success: false,
-      message: "Invalid museum payload.",
-      data: err,
-    };
-
-    return;
+    await next();
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      ctx.response.status = 400;
+      ctx.response.body = {
+        status: "fail",
+        error: err.errors,
+      };
+      return;
+    }
+    await next();
   }
-
-  await next();
 };
