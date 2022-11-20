@@ -1,5 +1,6 @@
 import { RouteGroup } from "/src/framework/mod.ts";
 import { authController } from "/src/auth/mod.ts";
+import { authenticate } from "/src/middleware/authenticate.ts";
 
 export const auth: RouteGroup = {
   group: {
@@ -18,6 +19,12 @@ export const auth: RouteGroup = {
       path: "/login",
       middleware: [],
       handler: (c) => authController.login(c),
+    },
+    {
+      method: "get",
+      path: "/me",
+      middleware: [authenticate],
+      handler: (c) => authController.me(c),
     },
     {
       method: "get",

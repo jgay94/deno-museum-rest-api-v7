@@ -17,10 +17,12 @@ export type AuthenticatedUser = {
 export interface IAuthController {
   register(ctx: RouterContext<string>): Promise<void>;
   login(ctx: RouterContext<string>): Promise<void>;
+  me(ctx: RouterContext<string>): Promise<void>;
   logout(ctx: RouterContext<string>): void;
 }
 
 export interface IAuthService {
   register(payload: UserPayload): Promise<UserDTO | null>;
   login(payload: UserPayload): Promise<AuthenticatedUser | null>;
+  me(username: string): Promise<UserDTO | null>;
 }

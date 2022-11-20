@@ -67,4 +67,16 @@ export class Service implements IAuthService {
       tokens: await this.tokenService.generateTokens(user.username),
     };
   }
+
+  public async me(username: string): Promise<UserDTO | null> {
+    const user = await this.userService.getByUsername(username);
+
+    if (!user) {
+      return null;
+    }
+
+    log.info(`[${new Date().toISOString()}] Getting user profile: ${username}`);
+
+    return convertToUserDTO(user);
+  }
 }

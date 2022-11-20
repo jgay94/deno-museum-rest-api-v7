@@ -12,6 +12,7 @@ export const authenticate: RouterMiddleware<string> = async (
   const headers = ctx.request.headers;
   const authorization = headers.get("Authorization");
   const cookie = await ctx.cookies.get("accessToken");
+  
   let token;
 
   if (authorization?.startsWith("Bearer ")) {
@@ -35,6 +36,7 @@ export const authenticate: RouterMiddleware<string> = async (
   }
 
   ctx.state["username"] = payload.sub;
+  
   await next();
   delete ctx.state.username;
 };

@@ -60,6 +60,21 @@ export class Controller implements IAuthController {
     ctx.response.body = user;
   }
 
+  public async me(ctx: RouterContext<string>): Promise<void> {
+    const { username } = ctx.state;
+
+    const user = await this.authService.me(username as string);
+
+    console.log(user)
+
+    if (!user) {
+      ctx.throw(401, "The user belonging to this token no longer exists");
+    }
+
+    ctx.response.status = 200;
+    ctx.response.body = user;
+  }
+
   public logout(ctx: RouterContext<string>): void {
     ctx.cookies.delete("accessToken");
 
